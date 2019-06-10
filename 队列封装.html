@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>队列封装</title>
+</head>
+<body>
+<script>
+
+    function Queue(){
+        //属性
+        this.items = []
+
+        //方法
+
+        // 1将元素添加到队列
+        Queue.prototype.enQueue = function (element) {
+            this.items.push(element)
+        }
+        //2删除队列首元素
+        Queue.prototype.deQueue = function () {
+          return this.items.shift()
+        }
+        //3查看队列前端元素
+        Queue.prototype.front = function () {
+            return this.items[0]
+        }
+        //4查看队列是否为空
+        Queue.prototype.isEmpty = function () {
+            return this.items.length == 0
+        }
+        //5查看队列元素个数
+        Queue.prototype.size = function () {
+            return this.items.length
+        }
+        //6toString方法
+        Queue.prototype.toString = function () {
+            var resultString = ''
+            for(var i = 0; i < this.items.length; i++){
+                 resultString += this.items[i] + ' '
+            }
+            return resultString;
+        }
+    }
+
+//    //使用队列
+//    var q = new Queue()
+//    q.enQueue('abc')
+//    q.enQueue('cba')
+//    q.enQueue('nba')
+//    q.deQueue();
+//    alert(q);
+//    alert(q.front())
+//    alert(q.isEmpty())
+//    alert(q.size())
+    //击鼓传花
+
+    function passGame(nameList,num){
+        //1创建队列
+        var queue = new Queue();
+        //2加入队列
+        for(var i = 0;i <nameList.length; i++){
+            queue.enQueue(nameList[i])
+        }
+        //3开始数数字,不是num的时候重新加入队列末尾,是num将其从队列中删除
+        while (queue.size()>1){
+            for(var i = 0;i< num - 1; i++){
+                queue.enQueue(queue.deQueue())
+            }
+            queue.deQueue()
+        }
+        //4获取剩余的人
+        alert(queue.size())
+        var endName = queue.front();
+        alert('最后剩余人是:'+ endName)
+        return nameList.indexOf(endName)
+    }
+
+    //测试击鼓传花
+    var nameList =['lile','Lucy','Mei','Alan']
+    passGame(nameList,3)
+
+</script>
+
+
+</body>
+</html>
